@@ -1,0 +1,5 @@
+FROM postgres:15
+ENV POSTGRES_PASSWORD=${DB_PASSWORD}
+EXPOSE 5432
+USER postgres
+CMD ["postgres"]
