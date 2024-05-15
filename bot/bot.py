@@ -470,8 +470,8 @@ def get_repl_logs (update: Update, context):
 
         cursor = connection.cursor()
         cursor.execute("SELECT pg_read_file('/var/log/postgresql/postgres.log') LIMIT 1;")
-
-	data = cursor.fetchone()[0]
+        
+        data = cursor.fetchone()[0]
         if len(data) > 3000:
             data = data[-3000:]
         lines = data.split('\n')
