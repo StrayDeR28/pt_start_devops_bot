@@ -1,0 +1,32 @@
+all:
+  vars:
+    DB_REPL_USER: repl_user
+    DB_REPL_PASSWORD: Qq12345
+    DB_HOST: 192.168.0.107
+
+  hosts:
+    db_bot:
+      ansible_host: 192.168.0.107
+      ansible_user: ansible
+      ansible_ssh_pass: ansible
+      TOKEN: 
+      RM_HOST: 192.168.0.107
+      RM_PORT: 22
+      RM_USER: ansible
+      RM_PASSWORD: ansible
+      DB_USER: postgres
+      DB_PASSWORD: Qq12345
+      DB_PORT: 5432
+      DB_DATABASE: db_pt
+      DB_REPL_HOST: 192.168.0.109
+      DB_REPL_PORT: 5432
+      github_repo: https://github.com/StrayDeR28/pt_start_devops_bot.git
+      dir: /home/ubuntu/ansible
+      dir_remote: /home/ansible/ansible
+      
+    db_repl:
+      ansible_host: 192.168.0.109
+      ansible_user: ansible
+      ansible_ssh_pass: ansible
+      dir_remote: /home/ansible/ansible
+      DB_REPL_HOST: 192.168.0.109
