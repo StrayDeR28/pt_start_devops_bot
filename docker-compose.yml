@@ -10,20 +10,20 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256\nhost replication all 0.0.0.0/0 md5"
+      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
       POSTGRES_INITDB_ARGS: "--auth=scram-sha-256"
     command: >
       postgres 
-      -c listen_addresses="*"
+      -c listen_addresses="*" 
       -c wal_level=replica 
       -c hot_standby=on 
       -c max_wal_senders=10 
       -c max_replication_slots=10 
-      -c hot_standby_feedback=on
-      -c log_replication_commands=on
-      -c logging_collector=on
-      -c log_directory='/var/log/postgresql'
-      -c log_destination='stderr'
+      -c hot_standby_feedback=on 
+      -c log_replication_commands=on 
+      -c logging_collector=on 
+      -c log_directory='/var/log/postgresql' 
+      -c log_destination='stderr' 
       -c log_filename=postgres.log
     volumes:
       - ./db/00_init.sql:/docker-entrypoint-initdb.d/00_init.sql
@@ -39,7 +39,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     command: |
       bash -c "
-      export PGPASSWORD=Qq12345
+      export PGPASSWORD=${DB_PASSWORD}
       until pg_basebackup --pgdata=/var/lib/postgresql/data -R --slot=replication_slot --host=db --port=5432
       do
         echo 'Waiting for primary to connect...'
@@ -47,10 +47,8 @@ services:
       done
       echo 'Backup done, starting replica...'
       chmod 0700 /var/lib/postgresql/data
-      postgres
+      postgres -c listen_addresses='*'
       "
-      postgres 
-      -c listen_addresses="*"
     depends_on:
       - db
 
@@ -58,6 +56,8 @@ services:
     build: 
       context: ./bot
       dockerfile: Dockerfile
+    volumes:
+      - ./.env:/bot/.env:ro
     ports:
       - 1000:1000
     depends_on:
