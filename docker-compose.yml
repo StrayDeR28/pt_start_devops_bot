@@ -24,7 +24,7 @@ services:
       -c logging_collector=on 
       -c log_directory='/var/log/postgresql' 
       -c log_destination='stderr' 
-      -c log_filename=postgres.log
+      -c log_filename='postgres.log'
     volumes:
       - ./db/00_init.sql:/docker-entrypoint-initdb.d/00_init.sql
 
