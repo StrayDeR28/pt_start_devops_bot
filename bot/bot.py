@@ -474,9 +474,7 @@ def get_repl_logs (update: Update, context):
         data = cursor.fetchone()[0]
         if len(data) > 3000:
             data = data[-3000:]
-        lines = data.split('\n')
-        if len(lines) > 20:
-            data = '\n'.join(lines[-20:])
+        data = data.split('\n')[-20:]
 	    
         data_with_replication = [line for line in data if 'replication' in line]
 	    
