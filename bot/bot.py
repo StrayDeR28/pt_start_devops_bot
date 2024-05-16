@@ -426,9 +426,9 @@ def get_apt_list (update: Update, context):
 
 
     if user_input == 'all':
-      stdin, stdout, stderr = client.exec_command('dpkg --get-selections | head -n 10')
+      stdin, stdout, stderr = client.exec_command('dpkg --get-selections | grep 'install$' | head -n 10')
     else:
-      stdin, stdout, stderr = client.exec_command(f'dpkg --get-selections | grep  {user_input} | head -n 10')
+      stdin, stdout, stderr = client.exec_command(f'dpkg --get-selections | grep  {user_input} |  grep 'install$' | head -n 10')
 
     tmp = stdout.read().decode('utf-8')
 
