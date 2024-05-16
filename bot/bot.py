@@ -478,8 +478,10 @@ def get_repl_logs (update: Update, context):
         if len(lines) > 20:
             data = '\n'.join(lines[-20:])
 	    
+        data_with_replication = [line for line in data if 'replication' in line]
+	    
         logging.info("Команда get_repl_logs успешно выполнена")
-        update.message.reply_text(str(data))
+        update.message.reply_text("\n".join(data_with_replication))
     except (Exception, Error) as error:
         logging.error("Ошибка при работе с PostgreSQL: %s", error)
         update.message.reply_text(f'Произошла ошибка{error}') # Отправляем сообщение пользователю
