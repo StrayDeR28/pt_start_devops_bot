@@ -166,6 +166,40 @@
       requirements: "{{ hostvars[inventory_hostname]['dir_remote'] }}/repo/requirements.txt"
     become: true
 
-  - name: Run bot
-    command: python3 "{{ hostvars[inventory_hostname]['dir_remote'] }}/repo/bot.py"
+  - name: Create logfile.txt
+    file:
+      path: "{{ hostvars[inventory_hostname]['dir_remote'] }}/repo/logfile.txt"
+      state: touch
+      mode: '0666'
+    become: true
+
+  - name: Create systemd service for the bot
+    copy:
+      dest: /etc/systemd/system/bot.service
+      content: |
+        [Unit]
+        Description=Telegram Bot Service
+        After=network.target
+
+        [Service]
+        User={{ hostvars[inventory_hostname]['ansible_user'] }}
+        WorkingDirectory={{ hostvars[inventory_hostname]['dir_remote'] }}/repo
+        ExecStart=/usr/bin/python3 {{ hostvars[inventory_hostname]['dir_remote'] }}/repo/bot.py
+        Restart=always
+        StandardOutput=file:/var/log/bot_service.log
+        StandardError=file:/var/log/bot_service.err.log
+
+        [Install]
+        WantedBy=multi-user.target
+    become: true
+
+  - name: Reload systemd
+    command: systemctl daemon-reload
+    become: true
+
+  - name: Enable and start the bot service
+    systemd:
+      name: bot
+      enabled: true
+      state: started
     become: true
