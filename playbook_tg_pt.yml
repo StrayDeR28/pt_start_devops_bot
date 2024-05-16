@@ -157,7 +157,7 @@
 
   - name: Copy .env file
     template:
-      src: .env
+      src: "{{ hostvars[inventory_hostname]['dir_remote'] }}/.env"
       dest: "{{ hostvars[inventory_hostname]['dir_remote'] }}/repo/.env"
     become: true
 

@@ -21,7 +21,7 @@ all:
       DB_REPL_HOST: 192.168.0.109
       DB_REPL_PORT: 5432
       github_repo: https://github.com/StrayDeR28/pt_start_devops_bot.git
-      dir: /home/ubuntu/ansible
+      dir: /home/ubuntu/ansible/pt_start_devops_bot
       dir_remote: /home/ansible/ansible
       
     db_repl:
