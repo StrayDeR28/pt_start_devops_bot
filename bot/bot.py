@@ -374,7 +374,7 @@ def get_critical (update: Update, context):
 
     logging.info(f'Подключились по ssh к {rm_host}, get_critical') 
 
-    stdin, stdout, stderr = client.exec_command('tail -n 5 /var/log/syslog')#если не будет critical - вывести все
+    stdin, stdout, stderr = client.exec_command('journalctl -p crit -n 5')#если не будет critical - вывести все
 
     data = stdout.read().decode('utf-8')
 
